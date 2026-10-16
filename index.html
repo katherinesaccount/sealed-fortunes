@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Sealed Fortunes</title>
+  <meta name="description" content="Seal your good days in a jar. Crack one open when you need a pick-me-up.">
+  <meta name="theme-color" content="#f2f1ed">
+  <meta name="color-scheme" content="light">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon-192.png">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Sealed Fortunes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <link rel="preload" as="image" href="img/jar.webp" type="image/webp">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <div class="app">
+    <header class="top">
+      <h1>Sealed Fortunes</h1>
+      <p class="tag">Keep the good days. Crack one open when you need it.</p>
+    </header>
+
+    <main>
+      <!-- THE JAR -->
+      <section id="view-jar" class="view" aria-labelledby="jar-heading">
+        <h2 id="jar-heading" class="sr">The jar</h2>
+
+        <aside id="install-tip" class="tip" hidden>
+          <p id="install-text"></p>
+          <div class="tip-row">
+            <button id="btn-install" class="link" type="button" hidden>Install</button>
+            <button id="btn-tip-dismiss" class="link" type="button">Got it</button>
+          </div>
+        </aside>
+
+        <div id="jar" class="jar"></div>
+        <p id="jar-count" class="jar-count" aria-live="polite"></p>
+
+        <div class="actions">
+          <button id="btn-draw" class="btn" type="button">Crack one open</button>
+          <button id="btn-add" class="btn" type="button">Seal a memory</button>
+        </div>
+
+        <p class="fine">
+          Everything you seal stays on this device. There is no account and no server, so only you can see your jar.
+        </p>
+        <p class="fine links">
+          <button id="btn-export" class="link" type="button">Save a backup</button>
+          <span aria-hidden="true">·</span>
+          <label class="link" for="import-input">Restore a backup</label>
+          <input id="import-input" class="sr-file" type="file" accept="application/json,.json">
+        </p>
+      </section>
+
+      <!-- OPENED FORTUNES -->
+      <section id="view-opened" class="view" aria-labelledby="opened-heading" hidden>
+        <h2 id="opened-heading">Opened Fortunes</h2>
+        <p class="sub">Everything you have cracked open, newest first. Tap one to read it again.</p>
+        <ul id="opened-list" class="opened-list"></ul>
+        <p id="opened-empty" class="empty" hidden>Nothing opened yet. Crack one from the jar and it will wait for you here.</p>
+      </section>
+    </main>
+
+    <nav class="tabs" aria-label="Sections">
+      <button id="tab-jar" type="button" aria-current="page">
+        <span class="tab-icon tab-icon-jar" aria-hidden="true"></span>
+        <span>The Jar</span>
+      </button>
+      <button id="tab-opened" type="button">
+        <span class="tab-icon tab-icon-cookie" aria-hidden="true"></span>
+        <span>Opened Fortunes <b id="opened-badge" hidden></b></span>
+      </button>
+    </nav>
+  </div>
+
+  <!-- ADD A MEMORY -->
+  <div id="sheet-backdrop" class="sheet-backdrop" hidden>
+    <form id="sheet" class="sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-title" novalidate>
+      <h2 id="sheet-title">Seal a memory</h2>
+      <div class="seg" role="tablist" aria-label="What kind of memory">
+        <button type="button" role="tab" data-mode="write" aria-selected="true">Write it</button>
+        <button type="button" role="tab" data-mode="photo" aria-selected="false">Add a photo</button>
+      </div>
+
+      <div class="pane" data-pane="write">
+        <label for="memory-text" class="sr">Your memory</label>
+        <textarea id="memory-text" maxlength="500" rows="6" placeholder="A good thing that happened. Who was there, what it smelled like, why it mattered."></textarea>
+        <p class="counter"><span id="memory-count">0</span>/500</p>
+      </div>
+
+      <div class="pane" data-pane="photo" hidden>
+        <label class="photo-drop" for="photo-input">
+          <input id="photo-input" class="sr-file" type="file" accept="image/*">
+          <span id="photo-prompt">Choose a photo or take one</span>
+          <img id="photo-preview" alt="Preview of your photo" hidden>
+        </label>
+        <label for="caption" class="sr">A few words (optional)</label>
+        <input id="caption" type="text" maxlength="120" placeholder="A few words to go with it (optional)" autocomplete="off">
+      </div>
+
+      <div class="sheet-actions">
+        <button type="button" class="btn ghost" data-close>Cancel</button>
+        <button type="submit" class="btn" id="seal-btn" disabled>Seal it in the jar</button>
+      </div>
+    </form>
+  </div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
